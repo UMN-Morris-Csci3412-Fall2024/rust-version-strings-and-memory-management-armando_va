@@ -19,6 +19,4 @@ path = "disemvowel/main.rs"
 name = "disemvowel"
 path = "disemvowel/main.rs"
 
-[[bin]]
-name = "palindrome"
-path = "palindrome/main.rs"
+
