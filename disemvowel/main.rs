@@ -59,23 +59,25 @@ mod tests {
     use assert_cmd::{assert::OutputAssertExt, cargo::CommandCargoExt};
     use predicates::prelude::predicate;
     use std::process::Command;
-
     #[test]
     fn requires_two_arguments() {
-        let mut cmd = Command::cargo_bin("disemvowel").unwrap();
+        // The `Command` library lets you create and run a CLI command.
+        let mut cmd = Command::cargo_bin("disemvowel-in-rust").unwrap();
+        // Add one command-line argument to this command, namely "1". The assertion
+        // below should fail because we didn't provide two arguments as required.
         cmd.arg("1");
         cmd.assert()
             .failure()
             .stderr(predicate::str::contains("Not enough arguments"));
     }
-
     #[test]
     fn requires_read_file() {
-        let mut cmd = Command::cargo_bin("disemvowel").unwrap();
+        let mut cmd = Command::cargo_bin("disemvowel-in-rust").unwrap();
+        // Provide two arguments, but both as paths to files that don't actually exist.
+        // The assertion below will fail because we couldn't open the first file.
         cmd.arg("/this/path/does/not/exist")
             .arg("output/path/does/not/matter");
         cmd.assert()
             .failure()
             .stderr(predicate::str::contains("Could not read the file"));
     }
-}
