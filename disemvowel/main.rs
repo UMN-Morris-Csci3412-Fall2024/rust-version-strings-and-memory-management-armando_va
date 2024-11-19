@@ -80,4 +80,4 @@ mod tests {
         cmd.assert()
             .failure()
             .stderr(predicate::str::contains("Could not read the file"));
-    }
+    }}
