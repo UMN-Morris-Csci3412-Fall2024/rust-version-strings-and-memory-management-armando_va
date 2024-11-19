@@ -11,8 +11,8 @@ fn main() {
     // two command line arguments, both file names. The first should
     // be the name of a file containing the text to disemvowel,
     // and the second should be the file we want to write the disemvoweled text to.
-    let args: Vec<String> = env::args().collect();
 
+    let args = env::args().collect::<Vec<String>>();
     //TODO: Panic if not enough arguments are provided
     //Panic should output the string "Not enough arguments"
 
@@ -22,13 +22,17 @@ fn main() {
     //  * Write the disemvoweled text using write_file
 
     // Replace String::from("dummy text") with what you get from read_file
-    let s = String::from("dummy text");
 
-    let s_disemvowel = disemvowel(&s);
+    if args.len() < 3 {
+        panic!("not enough argumenst");
+    }
 
-    // Use command-line arguments for the name of the file,
-    // and s_disemvowel for the text to write out.
-    write_file(Path::new("dummy.txt"), "output string");
+    let input_file = &args[1];
+    let output_file = &args[2];
+
+    let original_content = read_file(Path::new(input_file));
+    let processed_content = disemvowel(&original_content);
+    write_file(Path::new(output_file), &processed_content);
 }
 
 fn read_file(path: &Path) -> String {
@@ -38,7 +42,6 @@ fn read_file(path: &Path) -> String {
 fn write_file(path: &Path, s: &str) {
     fs::write(path, s).expect("Unable to write file");
 }
-
 // Everything from here down is Rust test code. You shouldn't need to
 // change any of this.
 //
@@ -50,6 +53,7 @@ fn write_file(path: &Path, s: &str) {
 // Tests that check that the correct panics are generated when
 // there aren't the correct number of command line arguments
 // or the input file isn't readable.
+
 #[cfg(test)]
 mod tests {
     use assert_cmd::{assert::OutputAssertExt, cargo::CommandCargoExt};
@@ -58,10 +62,7 @@ mod tests {
 
     #[test]
     fn requires_two_arguments() {
-        // The `Command` library lets you create and run a CLI command.
         let mut cmd = Command::cargo_bin("disemvowel-in-rust").unwrap();
-        // Add one command-line argument to this command, namely "1". The assertion
-        // below should fail because we didn't provide two arguments as required.
         cmd.arg("1");
         cmd.assert()
             .failure()
@@ -71,8 +72,6 @@ mod tests {
     #[test]
     fn requires_read_file() {
         let mut cmd = Command::cargo_bin("disemvowel-in-rust").unwrap();
-        // Provide two arguments, but both as paths to files that don't actually exist.
-        // The assertion below will fail because we couldn't open the first file.
         cmd.arg("/this/path/does/not/exist")
             .arg("output/path/does/not/matter");
         cmd.assert()

@@ -1,6 +1,10 @@
 //TODO: Return the input string without vowels.
 pub fn disemvowel(s: &str) -> String {
-    todo!()
+    fn is_vowel(c: char) -> bool {
+        matches!(c.to_ascii_lowercase(), 'a' | 'e' | 'i' | 'o' | 'u')
+    }
+
+    s.chars().filter(|&c| !is_vowel(c)).collect()
 }
 
 // Everything from here down is Rust test code. You shouldn't need to
