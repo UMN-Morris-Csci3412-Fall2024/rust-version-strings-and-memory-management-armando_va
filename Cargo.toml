@@ -1,5 +1,5 @@
 [package]
-name = "disemvowel"
+name = "disemvowel-in-rust"
 version = "1.0.0"
 authors = ["Nic McPhee <mcphee@morris.umn.edu>"]
 edition = "2018"
@@ -10,6 +10,10 @@ edition = "2018"
 tempfile = "3.1.0"
 assert_cmd = "0.10"
 predicates = "1"
+
+[[bin]]
+name = "disemvowel-in-rust"
+path = "disemvowel/main.rs"
 
 [[bin]]
 name = "disemvowel"
