@@ -27,12 +27,12 @@ fn main() {
         panic!("not enough argumenst");
     }
 
-    let input_file = &args[1];
-    let output_file = &args[2];
+    let input = &args[1];
+    let output = &args[2];
 
-    let original_content = read_file(Path::new(input_file));
+    let original_content = read_file(Path::new(input));
     let processed_content = disemvowel(&original_content);
-    write_file(Path::new(output_file), &processed_content);
+    write_file(Path::new(output), &processed_content);
 }
 
 fn read_file(path: &Path) -> String {
